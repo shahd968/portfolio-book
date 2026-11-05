@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ST | Portfolio Book</title>
+  <meta name="description" content="Portfolio of Your Name, web designer and front-end developer, presented as a book.">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="stage">
+    <p class="rotate-note">Best viewed in landscape. Please rotate your device.</p>
+
+    <div class="scene">
+      <!--
+        THE BOOK
+        11 sheets, each with a front and a back face. Every section is one
+        spread: a visual page on the LEFT and the content page on the RIGHT.
+          Sheet 1:  Front cover      | Flyleaf
+          Sheet 2:  Contents         | About visual
+          Sheet 3:  About            | Education visual
+          Sheet 4:  Education        | Experience visual
+          Sheet 5:  Experience       | Skills visual
+          Sheet 6:  Skills           | Project 1 visual
+          Sheet 7:  Project 1        | Project 2 visual
+          Sheet 8:  Project 2        | Project 3 visual
+          Sheet 9:  Project 3        | Contact visual
+          Sheet 10: Contact          | The End
+          Sheet 11: Flyleaf          | Back cover
+      -->
+      <div class="book" id="book" data-state="0" data-edge="start" aria-label="Portfolio book">
+
+        <span class="edge-hint left" aria-hidden="true">&#8249;</span>
+        <span class="edge-hint right" aria-hidden="true">&#8250;</span>
+
+        <!-- ============ SHEET 1 ============ -->
+        <div class="sheet">
+          <!-- FRONT COVER -->
+          <section class="face front cover" aria-label="Front cover">
+            <div class="cover-frame">
+              <p class="cover-kicker">Portfolio <br>2026</p>
+              <svg class="cover-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>
+              <h1 class="cover-name">Shahd Tarek</h1>
+              <span class="cover-rule"></span>
+              <p class="cover-role">Web Designer &middot; Front-End Developer</p>
+              <p class="cover-hook">Code the Vision...Design the Experience <br>
+             </p>
+      
+              <p class="cover-open">Open the book &#8250;</p>
+            </div>
+          </section>
+
+          <section class="face back page flyleaf" aria-hidden="true">
+            <div class="page-inner centered">
+              <svg class="flourish" viewBox="0 0 120 12" focusable="false">
+                <path class="fl" d="M0 6 H48 M72 6 H120"/>
+                <rect class="fg" x="55" y="1" width="10" height="10" transform="rotate(45 60 6)"/>
+              </svg>
+            </div>
+          </section>
+        </div>
+
+        <!-- ============ SHEET 2 ============ -->
+        <div class="sheet">
+          <section class="face front page endpaper" aria-label="Contents">
+            <div class="page-inner">
+              <header class="page-head">
+                <p class="chapter">Inside this book</p>
+                <h2>Contents</h2>
+              </header>
+              <div class="page-body">
+                <ol class="toc">
+                  <li><span>About Me</span><i></i><b>01</b></li>
+                  <li><span>Education</span><i></i><b>02</b></li>
+                  <li><span>Experience</span><i></i><b>03</b></li>
+                  <li><span>Skills</span><i></i><b>04</b></li>
+                  <li><span>Project One</span><i></i><b>05</b></li>
+                  <li><span>Project Two</span><i></i><b>06</b></li>
+                  <li><span>Project Three</span><i></i><b>07</b></li>
+                  <li><span>Contact</span><i></i><b>08</b></li>
+                </ol>
+                <p class="how">Click the <strong>right</strong> side of a page to turn forward and the <strong>left</strong> side to go back.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- ABOUT VISUAL -->
+          <section class="face back page visual" aria-hidden="true">
+            <div class="page-inner centered">
+              <div class="emblem">
+                <svg viewBox="0 0 200 200" focusable="false">
+                  <circle class="ring-outer" cx="100" cy="100" r="95"/>
+                  <circle class="ring-inner" cx="100" cy="100" r="82"/>
+                  <circle class="ln" cx="100" cy="84" r="19"/>
+                  <path class="ln" d="M60 142 C60 116 78 106 100 106 C122 106 140 116 140 142 Z"/>
+                  <path class="ac" d="M142 64 V78 M135 71 H149"/>
+                  <path class="ac" d="M58 72 V80 M54 76 H62"/>
+                </svg>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ============ SHEET 3 ============ -->
+        <div class="sheet">
+          <section class="face front page" aria-label="About">
+            <div class="page-inner">
+              <header class="page-head">
+                <p class="chapter">Chapter one</p>
+                <h2>About Me</h2>
+              </header>
+              <div class="page-body">
+                <div class="about-top">
+                  <div class="portrait"><img src="./WhatsApp Image 2026-11-05 at 2.58.36 PM.jpeg" alt="st"></div>
+                  <p class="lead">Hello, I'm <strong>Shahd Tarek</strong>, a web designer who builds clean, responsive websites with HTML, CSS, JavaScript and React.</p>
+                </div>
+                <p>I'm a fourth-year Communications and Electronics Engineering student, and I also worked as an instructor teaching both hardware and software topics. That mix shapes how I work: I like knowing how things work under the hood, and I enjoy explaining complex ideas in a simple, visual way.</p>
+                <p>Right now I'm looking for Full &amp; Part time internships and freelance projects where I can design, build and ship real work.</p>
+                <dl class="facts">
+                  <div><dt>Studying</dt><dd>Electronics &amp; Communications Engineering, year 4</dd></div>
+                  <div><dt>Teaching</dt><dd>Hardware &amp; software topics</dd></div>
+                  <div><dt>Specialty</dt><dd>Front-end web design</dd></div>
+                  <div><dt>Open to</dt><dd> Job offers &amp; Internships &amp; freelance</dd></div>
+                </dl>
+              </div>
+              <span class="folio">1</span>
+            </div>
+          </section>
+
+          <!-- EDUCATION VISUAL -->
+          <section class="face back page visual" aria-hidden="true">
+            <div class="page-inner centered">
+              <div class="emblem">
+                <svg viewBox="0 0 200 200" focusable="false">
+                  <circle class="ring-outer" cx="100" cy="100" r="95"/>
+                  <circle class="ring-inner" cx="100" cy="100" r="82"/>
+                  <polygon class="ln" points="100,62 158,90 100,118 42,90"/>
+                  <path class="ln" d="M68 104 V126 C68 134 82 142 100 142 C118 142 132 134 132 126 V104"/>
+                  <path class="ac" d="M158 90 V122"/>
+                  <circle class="gf" cx="158" cy="127" r="5"/>
+                </svg>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ============ SHEET 4 ============ -->
+        <div class="sheet">
+          <section class="face front page" aria-label="Education">
+            <div class="page-inner">
+              <header class="page-head">
+                <p class="chapter">Chapter two</p>
+                <h2>Education</h2>
+              </header>
+              <div class="page-body">
+                <div class="entry">
+                  <h3>B.Sc. in Communications and Electronics Engineering</h3>
+                  <p class="meta">Nile Academy for Science &amp; Technology  &middot; 2023 &ndash; 2028</p>
+                  <p>Currently in my fourth-year , building a strong foundation in Networks, hardware and software Engineering.</p>
+                </div>
+                <div class="entry">
+                  <h3> Relavent Courses &amp; Certificates</h3>
+                  <ul class="bullets">
+                    <li>JavaScript course   </li>
+                    <li>C++ course  </li>
+                    <li>HTML course  </li>
+                  </ul>
+                </div>
+              </div>
+              <span class="folio">2</span>
+            </div>
+          </section>
+
+          <!-- EXPERIENCE VISUAL -->
+          <section class="face back page visual" aria-hidden="true">
+            <div class="page-inner centered">
+              <div class="emblem">
+                <svg viewBox="0 0 200 200" focusable="false">
+                  <circle class="ring-outer" cx="100" cy="100" r="95"/>
+                  <circle class="ring-inner" cx="100" cy="100" r="82"/>
+                  <g transform="translate(0 -6)">
+                    <rect class="ln" x="50" y="84" width="100" height="62" rx="9"/>
+                    <path class="ln" d="M80 84 V74 a7 7 0 0 1 7 -7 H113 a7 7 0 0 1 7 7 V84"/>
+                    <path class="ln" d="M50 114 H91 M109 114 H150"/>
+                    <rect class="ac" x="91" y="107" width="18" height="15" rx="3"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+            
+          </section>
+        </div>
+
+        <!-- ============ SHEET 5 ============ -->
+        <div class="sheet">
+          <section class="face front page" aria-label="Experience">
+            <div class="page-inner">
+              <header class="page-head">
+                <p class="chapter">Chapter three</p>
+                <h2>Experience</h2>
+              </header>
+              <div class="page-body">
+                <div class="entry">
+                  <h3>Web esign &amp;Frontend Development Intern </h3>
+                  <p class="meta">NTI (National Telecommunication Institute) Internship &middot; August 2026 &ndash; Present</p>
+                  <ul class="bullets">
+                    <li>Worked on frontend development projects using different coding languages.</li>
+                    <li>Developed responsive and user-friendly web interfaces.</li>
+                    <li>Applied frontend development concepts in practical projects and real-world tasks.</li>
+                  </ul>
+                </div>
+                <div class="entry">
+                  <h3>Frontend Development Intern </h3>
+                  <p class="meta">Zikola Marketing Agency  &middot; May 2026 – July 2026</p>
+                  <ul class="bullets">
+                    <li>Gained practical experience in frontend development and web design</li>
+                    <li>Worked on developing and improving user-friendly web interfaces using different languages and methods.</li>
+                  </ul>
+                </div>
+              <span class="folio">3</span>
+            </div>
+          </section>
+
+          <!-- SKILLS VISUAL -->
+          <section class="face back page visual" aria-hidden="true">
+            <div class="page-inner centered">
+              <div class="emblem">
+                <svg viewBox="0 0 200 200" focusable="false">
+                  <circle class="ring-outer" cx="100" cy="100" r="95"/>
+                  <circle class="ring-inner" cx="100" cy="100" r="82"/>
+                  <g transform="translate(0 9)">
+                    <path class="ln" d="M100 54 A34 34 0 0 0 80 115 C84 118 86 123 86 128 V132 H114 V128 C114 123 116 118 120 115 A34 34 0 0 0 100 54 Z"/>
+                    <path class="ln" d="M90 140 H110 M94 148 H106"/>
+                    <path class="ac" d="M92 100 L100 110 L108 100 M100 110 V130"/>
+                    <path class="ac" d="M100 34 V44 M46 88 H56 M154 88 H144 M62 50 L69 57 M138 50 L131 57"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ============ SHEET 6 ============ -->
+        <div class="sheet">
+          <section class="face front page" aria-label="Skills">
+            <div class="page-inner">
+              <header class="page-head">
+                <p class="chapter">Chapter four</p>
+                <h2>Skills</h2>
+              </header>
+              <div class="page-body">
+                <div class="skill-group">
+                  <h3>Front-End <em>(intermediate)</em></h3>
+                  <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span><span class="chip">React</span></div>
+                </div>
+                <div class="skill-group">
+                  <h3>Design</h3>
+                  <div class="chips"><span class="chip">UI Design</span><span class="chip">Responsive Layout</span></div>
+                </div>
+                <div class="skill-group">
+                  <h3>Hardware</h3>
+                  <div class="chips"><span class="chip">Circuit Design</span><span class="chip">Embedded Systems</span></div>
+                </div>
+                <div class="skill-group">
+                  <h3>People</h3>
+                  <div class="chips"><span class="chip">Presenting</span><span class="chip">Teaching</span><span class="chip">Explaining complex ideas</span></div>
+                </div>
+                <div class="skill-group">
+                  <h3>Tools</h3>
+                  <div class="chips"><span class="chip">Visual Studio Code (VS Code)</span>
+                  <span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Vercel</span>
+                  <span class="chip">Chrome DevTools</span><span class="chip">Live Server</span><span class="chip">npm</span>
+                  <span class="chip">Figma</span>
+                  
+                  
+                  
+                  
+                  
+                  </div>
+                </div>
+              </div>
+              <span class="folio">4</span>
+            </div>
+          </section>
+
+          <!-- PROJECT ONE VISUAL -->
+          <section class="face back page visual" aria-hidden="true">
+            <div class="page-inner centered">
+              <div class="emblem">
+                <svg viewBox="0 0 200 200" focusable="false">
+                  <circle class="ring-outer" cx="100" cy="100" r="95"/>
+                  <circle class="ring-inner" cx="100" cy="100" r="82"/>
+                  <rect class="ln" x="56" y="66" width="88" height="58" rx="6"/>
+                  <path class="ln" d="M40 126 H160 V129 a7 7 0 0 1 -7 7 H47 a7 7 0 0 1 -7 -7 Z"/>
+                  <path class="ac" d="M88 86 L78 95 L88 104 M112 86 L122 95 L112 104 M106 82 L94 108"/>
+                </svg>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ============ SHEET 7 ============ -->
+        <div class="sheet">
+          <section class="face front page" aria-label="Project one">
+            <div class="page-inner">
+              <header class="page-head">
+                <p class="chapter">Project one</p>
+                <h2>Nocredits-
+watch what moves you </h2>
+              </header>
+              <div class="page-body col">
+                <!-- Replace the placeholder text with: <img src="images/project1.png" alt="Project one screenshot"> -->
+                <div class="shot shot-1" role="img" aria-label="Project one preview placeholder">
+                  <div class="shot-bar"><i></i><i></i><i></i></div>
+                  <div class="shot-screen"><span><img src="./WhatsApp Image 2026-11-04 at 11.10.19 PM.jpeg" alt="Project one screenshot"></span></div>
+                </div>
+                <p class="proj-meta"><span><b>Role:</b>Designer & Front-End Developer</span><span><b>Year:</b> 2026 </span></p>
+                <p>NoCredits is a movie and series discovery website that helps people find something worth watching. It features a cinematic hero section for the featured title, quick “Watch trailer” and “My List” actions, and a clean dark interface designed to feel like a real streaming platform</p>
+                <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span><span class="chip">GitHub</span>
+                
+                </div>
+                <div class="btn-row">
+                  <a class="btn" href="https://shahd968.github.io/NoCredits/" target="_blank" rel="noopener">Live demo</a>
+                  <a class="btn alt" href="https://github.com/shahd968/NoCredits.git" target="_blank" rel="noopener">Source code</a>
+                </div>
+              </div>
+              <span class="folio">5</span>
+            </div>
+          </section>
+
+          <!-- PROJECT TWO VISUAL -->
+          <section class="face back page visual" aria-hidden="true">
+            <div class="page-inner centered">
+              <div class="emblem">
+                <svg viewBox="0 0 200 200" focusable="false">
+                  <circle class="ring-outer" cx="100" cy="100" r="95"/>
+                  <circle class="ring-inner" cx="100" cy="100" r="82"/>
+                  <rect class="ln" x="46" y="62" width="108" height="78" rx="8"/>
+                  <path class="ln" d="M46 84 H154"/>
+                  <circle class="gf" cx="58" cy="73" r="2.8"/>
+                  <circle class="gf" cx="68" cy="73" r="2.8"/>
+                  <circle class="gf" cx="78" cy="73" r="2.8"/>
+                  <rect class="ac" x="58" y="94" width="40" height="34" rx="4"/>
+                  <path class="ac" d="M108 98 H142 M108 111 H142 M108 124 H128"/>
+                </svg>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ============ SHEET 8 ============ -->
+        <div class="sheet">
+          <section class="face front page" aria-label="Project two">
+            <div class="page-inner">
+              <header class="page-head">
+                <p class="chapter">Project two</p>
+                <h2>Bloom & Blossom-
+                  Fresh Flowers
+</h2>
+              </header>
+              <div class="page-body col">
+                <div class="shot shot-2" role="img" aria-label="Project two preview placeholder">
+                  <div class="shot-bar"><i></i><i></i><i></i></div>
+                  <div class="shot-screen"><span><img src="./WhatsApp Image 2026-11-04 at 11.22.51 PM.jpeg" alt="Project two screenshot"></span></div>
+                </div>
+                <p class="proj-meta"><span><b>Role:</b> Designer & Front-End Developer</span><span><b>Year:</b> 2025 </span></p>
+                <p>Bloom & Blossom is a flower shop website with a fresh, romantic look, built around a pink and green palette. It has a warm hero section with a clear “Find your flowers” call to action, plus pages for the shop’s story, its flowers and a contact form. The design is clean and responsive, and a “Your bag” counter lets visitors collect their favorite bouquets.</p>
+                <div class="chips"><span class="chip">React</span><span class="chip">Tailwind.CSS</span><span class="chip">JavaScript</span></div>
+                <div class="btn-row">
+                  <a class="btn" href="https://shahd968.github.io/Bloom-Blossom/" target="_blank" rel="noopener">Live demo</a>
+                  <a class="btn alt" href="https://github.com/shahd968/Bloom-Blossom.git" target="_blank" rel="noopener">Source code</a>
+                </div>
+              </div>
+              <span class="folio">6</span>
+            </div>
+          </section>
+
+          <!-- PROJECT THREE VISUAL -->
+          <section class="face back page visual" aria-hidden="true">
+            <div class="page-inner centered">
+              <div class="emblem">
+                <svg viewBox="0 0 200 200" focusable="false">
+                  <circle class="ring-outer" cx="100" cy="100" r="95"/>
+                  <circle class="ring-inner" cx="100" cy="100" r="82"/>
+                  <g transform="translate(0 -4)">
+                    <polygon class="ln" points="100,62 152,88 100,114 48,88"/>
+                    <path class="ln" d="M48 104 L100 130 L152 104"/>
+                    <path class="ac" d="M48 120 L100 146 L152 120"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ============ SHEET 9 ============ -->
+        <div class="sheet">
+          <section class="face front page" aria-label="Project three">
+            <div class="page-inner">
+              <header class="page-head">
+                <p class="chapter">Project three</p>
+                <h2>3OTOL-
+The Ultimate Companion
+for Hydration
+</h2>
+              </header>
+              <div class="page-body col">
+                <div class="shot shot-3" role="img" aria-label="Project three preview placeholder">
+                  <div class="shot-bar"><i></i><i></i><i></i></div>
+                  <div class="shot-screen"><span><img src="./WhatsApp Image 2026-11-04 at 11.12.07 PM.jpeg" alt="Project three screenshot"></span></div>
+                </div>
+                <p class="proj-meta"><span><b>Role:</b> Designer & Front-End Developer </span><span><b>Year:</b> 2026 </span></p>
+                <p>3OTOL is a modern e-commerce website specialized in hydration products and water bottles, designed to showcase the brand’s products in a clean and engaging way. It features a responsive layout, intuitive navigation, and interactive elements to enhance the user experience. Developed using HTML, CSS, and JavaScript.</p>
+                <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span></div>
+                <div class="btn-row">
+                  <a class="btn" href="https://shahd968.github.io/3OTOL/" target="_blank" rel="noopener">Live demo</a>
+                  <a class="btn alt" href="https://github.com/shahd968/3OTOL.git" target="_blank" rel="noopener">Source code</a>
+                </div>
+              </div>
+              <span class="folio">7</span>
+            </div>
+          </section>
+
+          <!-- CONTACT VISUAL -->
+          <section class="face back page visual" aria-hidden="true">
+            <div class="page-inner centered">
+              <div class="emblem">
+                <svg viewBox="0 0 200 200" focusable="false">
+                  <circle class="ring-outer" cx="100" cy="100" r="95"/>
+                  <circle class="ring-inner" cx="100" cy="100" r="82"/>
+                  <g transform="translate(0 -7)">
+                    <rect class="ln" x="46" y="70" width="108" height="74" rx="9"/>
+                    <path class="ln" d="M46 80 L100 118 L154 80"/>
+                    <path class="ac" d="M50 140 L88 106 M150 140 L112 106"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ============ SHEET 10 ============ -->
+        <div class="sheet">
+          <section class="face front page" aria-label="Contact">
+            <div class="page-inner">
+              <header class="page-head">
+                <p class="chapter">Chapter eight</p>
+                <h2>Contact</h2>
+              </header>
+              <div class="page-body">
+                <p class="lead">Have a project, an internship or an idea? Let's write the next chapter together.</p>
+                <ul class="contact-list">
+                  <li>
+                    <a href="mailto:tshahd968@gmail.com">
+                      <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+                      <span><small>Email</small>tshahd968@gmail.com</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="tel:+20 01004013949">
+                      <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span>
+                      <span><small>Phone</small>+20 01004013949</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.linkedin.com/in/shahd-tarek-57ab8b326/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BkM0VSMm9Rg6heqEC6C018w%3D%3D" target="_blank" rel="noopener">
+                      <span class="ico"><b>in</b></span>
+                      <span><small>LinkedIn</small>linkedin.com/in/shahd-tarek</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/shahd968" target="_blank" rel="noopener">
+                      <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 8-4 4 4 4M16 8l4 4-4 4"/></svg></span>
+                      <span><small>GitHub</small>github.com/shahd968</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <span class="folio">8</span>
+            </div>
+          </section>
+
+          <section class="face back page" aria-label="The end">
+            <div class="page-inner centered the-end">
+              <p class="chapter">Thank you for reading</p>
+              <h2>The End</h2>
+              <span class="cover-rule dark"></span>
+              <p>"The last page of my portfolio, perhaps the first page of our collaboration. Let's create something worth clicking on!"</p>
+              <button class="btn" type="button" data-goto="0">Read again &#8634;</button>
+            </div>
+          </section>
+        </div>
+
+        <!-- ============ SHEET 11 ============ -->
+        <div class="sheet">
+          <section class="face front page flyleaf" aria-hidden="true">
+            <div class="page-inner centered">
+              <svg class="flourish" viewBox="0 0 120 12" focusable="false">
+                <path class="fl" d="M0 6 H48 M72 6 H120"/>
+                <rect class="fg" x="55" y="1" width="10" height="10" transform="rotate(45 60 6)"/>
+              </svg>
+            </div>
+          </section>
+
+          <!-- BACK COVER -->
+          <section class="face back cover" aria-label="Back cover">
+            <div class="cover-frame">
+              <svg class="cover-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>
+              <p class="cover-hook small"><span>Lets Discuss</span>
+  <span>Your</span>
+  <span>Project</span>
+              </p>
+              <span class="cover-rule"></span>
+              <p class="cover-role">Developed &amp; Designed by
+                         <br>  © 2026 Shahd Tarek</p>
+            </div>
+          </section>
+        </div>
+
+      </div>
+    </div>
+
+    <nav class="controls" aria-label="Book navigation">
+      <button class="ctrl" id="prev" type="button" aria-label="Previous page">&#8249;</button>
+      <div class="dots" id="dots" role="group" aria-label="Jump to a section"></div>
+      <button class="ctrl" id="next" type="button" aria-label="Next page">&#8250;</button>
+    </nav>
+    <p class="tip">Click the right side to turn forward &middot; click the left side to go back &middot; arrow keys work too</p>
+    <p class="sr-only" id="live" aria-live="polite"></p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

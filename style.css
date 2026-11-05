@@ -1,0 +1,737 @@
+
+
+:root {
+  /* ----- Palette (swap these for your Canva colors) ----- */
+  --cover: #741b80;        /* book cover */
+  --cover-light: #5a1463;  /* cover highlight */
+  --cover-dark: #741b80;   /* cover shadow */
+  --gold: #f7c145;         /* foil / accents on cover */
+  --paper: #f7f0e1;        /* page color */
+  --paper-edge: #eadfc7;   /* page thickness lines */
+  --ink: #836950;          /* body text */
+  --muted: #997349;        /* secondary text */
+  --accent: #e37b5c;       /* chapter labels, bullets */
+  --desk-1: #eddfcc;       /* background (light) */
+  --desk-2: #6c5a52;       /* background (dark) */
+
+  /* ----- Fonts (swap these for your Canva fonts) ----- */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Lora", Georgia, serif;
+  --font-script: "Caveat", "Segoe Script", cursive;
+
+  /* ----- Sizing: the whole book scales to fit the screen ----- */
+  --vh: 100vh;
+  --bw: min(92vw, calc((var(--vh) - 125px) * 1.5)); /* book width (two pages) */
+  --flip: 1s;                                        /* page-turn duration */
+}
+
+@supports (height: 100dvh) {
+  :root { --vh: 100dvh; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: var(--font-body);
+  color: #f3ead9;
+  background: radial-gradient(ellipse at 50% 35%, var(--desk-1), var(--desk-2) 78%);
+  -webkit-font-smoothing: antialiased;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- Layout ---------- */
+.stage {
+  height: var(--vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: .5rem 0;
+}
+
+.scene {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.rotate-note {
+  display: none;
+  margin: 0;
+  padding: 0 1rem;
+  text-align: center;
+  font-size: .9rem;
+  color: var(--gold);
+}
+
+/* ---------- The book ---------- */
+.book {
+  position: relative;
+  width: var(--bw);
+  height: calc(var(--bw) / 1.5);
+  font-size: calc(var(--bw) / 70);   /* 1em scales with the book */
+  perspective: 2800px;
+  transition: transform var(--flip) cubic-bezier(.645, .045, .355, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+/* Closed book is shifted so the cover / back cover sits in the center.
+   script.js sets data-edge to "start" (front cover), "end" (back cover) or "open". */
+.book[data-edge="start"] { transform: translateX(-25%); }
+.book[data-edge="end"]   { transform: translateX(25%); }
+
+/* Table shadow */
+.book::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 1%; right: 1%;
+  bottom: -3.5%;
+  height: 7%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, .6), rgba(0, 0, 0, 0) 70%);
+  filter: blur(6px);
+  transition: left var(--flip), right var(--flip);
+}
+.book[data-edge="start"]::before { left: 50%; right: 0; }
+.book[data-edge="end"]::before   { left: 0; right: 50%; }
+
+/* One sheet = front face + back face, hinged at the spine */
+.sheet {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform var(--flip) cubic-bezier(.645, .045, .355, 1);
+}
+.sheet.flipped { transform: rotateY(-180deg); }
+
+.face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.face.back { transform: rotateY(180deg); }
+
+.face.front { border-radius: 0 .5em .5em 0; }
+.face.back  { border-radius: .5em 0 0 .5em; }
+
+/* Spine shading */
+.face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.face.front::after {
+  background: linear-gradient(to right, rgba(0, 0, 0, .28), rgba(0, 0, 0, 0) 9%, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, .07));
+}
+.face.back::after {
+  background: linear-gradient(to left, rgba(0, 0, 0, .28), rgba(0, 0, 0, 0) 9%, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, .07));
+}
+
+/* ---------- Paper ---------- */
+.page {
+  color: var(--ink);
+  background:
+    repeating-linear-gradient(0deg, rgba(120, 90, 50, .025) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, 0) 30%),
+    var(--paper);
+}
+.face.front.page { box-shadow: .15em .1em 0 -.02em var(--paper-edge), .3em .2em 0 -.04em #d9cdb3; }
+.face.back.page  { box-shadow: -.15em .1em 0 -.02em var(--paper-edge), -.3em .2em 0 -.04em #d9cdb3; }
+
+.page-inner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+.face.front .page-inner { inset: 2.8em 2.5em 3.6em 3.5em; }
+.face.back  .page-inner { inset: 2.8em 3.5em 3.6em 2.5em; }
+
+.page-head::after {
+  content: "";
+  display: block;
+  width: 3.2em;
+  height: .14em;
+  margin: .7em 0 1.1em;
+  background: var(--gold);
+}
+.chapter {
+  margin: 0;
+  font-family: var(--font-script);
+  font-size: 1.5em;
+  line-height: 1;
+  color: var(--accent);
+}
+.page h2 {
+  margin: .1em 0 0;
+  font-family: var(--font-display);
+  font-size: 2.3em;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--cover);
+}
+
+.page-body {
+  flex: 1;
+  min-height: 0;
+  font-size: 1.04em;
+  line-height: 1.6;
+}
+.page-body p { margin: 0 0 .9em; }
+.page-body.col { display: flex; flex-direction: column; }
+
+.folio {
+  position: absolute;
+  bottom: -2.4em;
+  left: 0; right: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: .9em;
+  color: var(--muted);
+}
+
+/* ---------- Covers ---------- */
+.cover {
+  color: var(--gold);
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, .02) 0 2px, transparent 2px 5px),
+    radial-gradient(circle at 30% 20%, var(--cover-light), var(--cover) 55%, var(--cover-dark));
+}
+.face.front.cover { border-radius: 0 .8em .8em 0; }
+.face.back.cover  { border-radius: .8em 0 0 .8em; }
+
+.cover-frame {
+  position: absolute;
+  inset: 2.2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: .12em solid var(--gold);
+  outline: .06em solid rgba(212, 175, 90, .45);
+  outline-offset: .5em;
+  padding: 2em;
+}
+.cover-kicker {
+    transform: translateY(-65px);
+    line-height: 1.9;
+  margin: 0;
+  font-size: 1em;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+}
+.cover-mark {
+  position: relative;
+  left: -8px;
+    top: 10px;
+    transform: translateY(-60px);
+  width: 3.4em;
+  height: 3.4em;
+  margin: 1.4em 0 .6em;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cover-name {
+    transform: translateY(-40px);
+  margin: .2em 0 .1em;
+  font-family: var(--font-display);
+  font-size: 3.3em;
+  font-weight: 700;
+  line-height: 1.05;
+  color: #f1dfae;
+}
+.cover-rule {
+  display: block;
+  width: 5em;
+  height: .12em;
+  margin: 1em auto;
+  background: var(--gold);
+}
+.cover-rule.dark { background: var(--gold); margin: 1.2em auto 1.4em; }
+.cover-hook {
+  margin-bottom: 2.4em;
+  margin: 0 0 1.2em;
+  max-width: 22em;
+  font-size: 1.2em;
+  line-height: 4.1;
+  color: #f6ecd0;
+}
+
+.cover-hook.small {
+  transform: translateY(-32px);
+    max-width: 100%;
+    font-size: 2.5em;
+    font-weight: 500;
+    word-spacing: -0.1em;
+    margin-bottom: 0;
+    text-align: center;
+    line-height: 1.8;
+}
+
+.cover-hook.small span {
+    display: block;
+}
+
+.cover-role {
+  margin: 0;
+  font-size: .85em;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.cover-open {
+  position: absolute;
+  bottom: 1.4em;
+  margin: 0;
+  font-family: var(--font-script);
+  font-size: 1.5em;
+  color: #f6ecd0;
+  opacity: .85;
+}
+.back.cover .cover-kicker { margin-top: 1.6em; opacity: .8; }
+
+/* ---------- Contents page ---------- */
+.endpaper .page-inner {
+  border: .1em solid rgba(181, 87, 59, .35);
+  padding: 2em 1.8em 1.4em;
+}
+.toc { list-style: none; margin: 0; padding: 0; }
+.toc li {
+  display: flex;
+  align-items: baseline;
+  gap: .5em;
+  padding: .4em 0;
+  font-family: var(--font-display);
+  font-size: 1.1em;
+}
+.toc li i {
+  flex: 1;
+  border-bottom: .1em dotted rgba(42, 38, 34, .35);
+  transform: translateY(-.25em);
+}
+.toc li b { font-weight: 500; color: var(--accent); }
+.how {
+  margin: 1.4em 0 0 !important;
+  font-family: var(--font-script);
+  font-size: 1.45em;
+  line-height: 1.2;
+  color: var(--muted);
+}
+
+/* ---------- About ---------- */
+.about-top {
+  display: flex;
+  align-items: center;
+  gap: 1.2em;
+  margin-bottom: 1em;
+}
+.portrait {
+  flex: none;
+  width: 7.6em;
+  height: 7.6em;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  border: .2em solid var(--gold);
+  box-shadow: 0 0 0 .25em var(--paper), 0 0 0 .32em rgba(212, 175, 90, .6);
+  background: radial-gradient(circle at 30% 25%, var(--cover-light), var(--cover));
+  color: var(--gold);
+  font-family: var(--font-display);
+}
+.portrait span { font-size: 2.4em; }
+.portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 180% !important;
+}
+.lead {
+  margin: 0 !important;
+  font-size: 1.1em;
+  line-height: 1.5;
+}
+.lead strong { color: var(--cover); }
+
+.facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .9em 1.2em;
+  margin: 1.2em 0 0;
+  padding-top: 1.1em;
+  border-top: .08em solid rgba(42, 38, 34, .15);
+}
+.facts dt {
+    line-height: 0.0em;
+  font-size: .75em;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.facts dd { margin: .1em 0 0; line-height: 1.35; }
+
+/* ---------- Timeline entries (Education / Experience) ---------- */
+.entry {
+  position: relative;
+  margin-bottom: 1.4em;
+  padding-left: 1.3em;
+  border-left: .12em solid rgba(181, 87, 59, .35);
+}
+.entry::before {
+  content: "";
+  position: absolute;
+  left: -.38em;
+  top: .45em;
+  width: .64em;
+  height: .64em;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.entry h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.2em;
+  line-height: 1.25;
+  color: var(--cover);
+}
+.entry .meta {
+  margin: .15em 0 .5em;
+  font-size: 1em;
+  font-style: italic;
+  color: var(--muted);
+}
+.entry p:last-child { margin-bottom: 0; }
+
+.bullets {
+    line-height: 2em;
+     margin: 0; 
+     padding: 0;
+      list-style: none;
+     }
+.bullets li { 
+    position: relative;
+     padding-left: 1.1em; 
+     margin-bottom: .35em;
+     }
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .7em;
+  width: .4em;
+  height: .4em;
+  transform: rotate(45deg);
+  background: var(--gold);
+}
+
+.callout {
+  margin: 1.4em 0 0 !important;
+  padding: .8em 1em;
+  border-left: .25em solid var(--gold);
+  background: rgba(212, 175, 90, .14);
+  font-family: var(--font-script);
+  font-size: 1.5em;
+  line-height: 1.2;
+  color: var(--cover);
+}
+
+/* ---------- Skills ---------- */
+.skill-group { margin-bottom: 1.25em; }
+.skill-group h3 {
+  margin: 0 0 .5em;
+  font-family: var(--font-body);
+  font-size: .85em;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.skill-group h3 em {
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--muted);
+}
+
+.chips {
+   display: flex; 
+   flex-wrap: wrap;
+    gap: .5em; 
+  }
+.chip {
+  padding: .25em .85em;
+  border: .08em solid var(--cover);
+  border-radius: 2em;
+  background: rgba(31, 61, 54, .06);
+  font-size: .85em;
+  line-height: 1.4;
+  color: var(--cover);
+}
+.chip.ghost { border-style: dashed; border-color: var(--muted); background: none; color: var(--muted); }
+
+/* ---------- Projects ---------- */
+.shot {
+  display: flex;
+  flex-direction: column;
+  height: 14em;
+  margin-bottom: .2em;
+  overflow: hidden;
+  border-radius: .6em;
+  background: #fff;
+  box-shadow: 0 .5em 1.2em rgba(0, 0, 0, .25);
+}
+.shot-bar {
+  display: flex;
+  align-items: center;
+  gap: .35em;
+  height: 1.7em;
+  padding: 0 .7em;
+  background: #efe6d3;
+}
+.shot-bar i { width: .6em; height: .6em; border-radius: 50%; background: #c9bda3; }
+.shot-screen { flex: 1; display: grid; place-items: center; overflow: hidden; }
+.shot-screen span {
+  font-family: var(--font-script);
+  font-size: 1.6em;
+  color: rgba(255, 255, 255, .9);
+}
+.shot-screen img { width: 100%; height: 100%; object-fit: cover; }
+.shot-1 .shot-screen { background: linear-gradient(135deg, var(--cover-light), var(--cover)); }
+.shot-2 .shot-screen { background: linear-gradient(135deg, #c9694b, #7d3a27); }
+.shot-3 .shot-screen { background: linear-gradient(135deg, #d4af5a, #9a7a2e); }
+
+.proj-meta {
+  display: flex;
+  gap: 1.6em;
+  margin: .9em 0 .6em !important;
+  font-size: .9em;
+  color: var(--muted);
+}
+.proj-meta b { font-weight: 600; color: var(--ink); }
+
+.btn-row {
+  padding-top: 0.3em;
+   display: flex; 
+   gap: .7em; 
+   margin-top: auto; }
+.btn {
+  display: inline-block;
+  padding: .55em 1.3em;
+  border: .09em solid var(--cover);
+  border-radius: 2em;
+  background: var(--cover);
+  color: var(--gold);
+  font-family: var(--font-body);
+  font-size: .9em;
+  letter-spacing: .04em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .2s, color .2s, transform .2s;
+}
+.btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateY(-.1em); }
+.btn.alt { background: transparent; color: var(--cover); }
+.btn.alt:hover { background: var(--cover); border-color: var(--cover); color: var(--gold); }
+
+/* ---------- Contact ---------- */
+.contact-list {
+  display: grid;
+  gap: .9em;
+  margin: 1.2em 0 0;
+  padding: 0;
+  list-style: none;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.contact-list a {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: .55em .8em;
+  border: .08em solid rgba(42, 38, 34, .15);
+  border-radius: .7em;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background .2s, border-color .2s, transform .2s;
+}
+.contact-list a:hover { background: rgba(212, 175, 90, .16); border-color: var(--gold); transform: translateX(.2em); }
+.contact-list small {
+  display: block;
+  font-size: .72em;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.ico {
+  flex: none;
+  width: 2.5em;
+  height: 2.5em;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--cover);
+  color: var(--gold);
+}
+.ico svg {
+  width: 1.35em;
+  height: 1.35em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ico b { font-family: var(--font-display); font-size: 1.05em; }
+
+/* ---------- The End ---------- */
+.centered { align-items: center; justify-content: center; text-align: center; }
+.the-end h2 { font-size: 3.4em; font-style: italic; }
+.the-end p:not(.chapter) { max-width: 16em; margin: 0 0 1.6em; line-height: 1.6; color: var(--muted); }
+
+/* ---------- Visual pages (the page facing each section) ---------- */
+.emblem {
+  width: 16em;
+  height: 16em;
+}
+.emblem svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.emblem .ring-outer {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.4;
+  stroke-dasharray: .5 5;
+  stroke-linecap: round;
+}
+.emblem .ring-inner {
+  fill: rgba(212, 175, 90, .10);
+  stroke: var(--gold);
+  stroke-width: 1.5;
+}
+.emblem .ln,
+.emblem .ac {
+  fill: none;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.emblem .ln { stroke: var(--cover); }   /* main outline */
+.emblem .ac { stroke: var(--accent); }  /* accent details */
+.emblem .gf { fill: var(--gold); stroke: none; }
+
+/* Flyleaves: the plain pages just inside the front and back covers */
+.flourish {
+  width: 8em;
+  height: auto;
+  overflow: visible;
+}
+.flourish .fl { fill: none; stroke: var(--gold); stroke-width: 1; }
+.flourish .fg { fill: var(--gold); }
+
+/* ---------- Hover arrows on the page edges ---------- */
+.edge-hint {
+  position: absolute;
+  top: 50%;
+  z-index: 60;
+  width: 1.8em;
+  height: 1.8em;
+  margin-top: -.9em;
+  display: grid;
+  place-items: center;
+  padding-bottom: .12em;
+  border-radius: 50%;
+  background: rgba(20, 42, 37, .88);
+  color: var(--gold);
+  font-size: 1.6em;
+  line-height: 1;
+  opacity: 0;
+  transform: scale(.8);
+  transition: opacity .25s, transform .25s;
+  pointer-events: none;
+}
+.edge-hint.left  { left: .5em; }
+.edge-hint.right { right: .5em; }
+.edge-hint.show  { opacity: 1; transform: scale(1); }
+
+/* ---------- Controls under the book ---------- */
+.controls { display: flex; align-items: center; gap: 1rem; }
+
+.ctrl {
+  width: 2.6rem;
+  height: 2.6rem;
+  display: grid;
+  place-items: center;
+  padding: 0 0 .15rem;
+  border: .1rem solid rgba(212, 175, 90, .6);
+  border-radius: 50%;
+  background: rgba(20, 42, 37, .7);
+  color: var(--gold);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .2s, opacity .2s;
+}
+.ctrl:hover:not(:disabled) { background: var(--cover-light); }
+.ctrl:disabled { opacity: .3; cursor: default; }
+
+.dots { display: flex; align-items: center; gap: .6rem; }
+.dot {
+  width: .7rem;
+  height: .7rem;
+  padding: 0;
+  border: 0;
+  border-radius: 1rem;
+  background: rgba(243, 234, 217, .3);
+  cursor: pointer;
+  transition: width .3s, background .3s;
+}
+.dot:hover { background: rgba(243, 234, 217, .6); }
+.dot.active { width: 1.8rem; background: var(--gold); }
+
+.tip {
+  margin: 0;
+  padding: 0 1rem;
+  text-align: center;
+  font-size: .85rem;
+  color: #cbbd9f;
+  opacity: .85;
+}
+
+button:focus-visible, a:focus-visible {
+  outline: .15rem solid var(--gold);
+  outline-offset: .15rem;
+}
+
+/* ---------- Small / portrait screens ---------- */
+@media (max-width: 700px) and (orientation: portrait) {
+  .rotate-note { display: block; }
+  .tip { display: none; }
+}
+
+/* ---------- Respect reduced-motion settings ---------- */
+@media (prefers-reduced-motion: reduce) {
+  :root { --flip: .01s; }
+  .btn, .contact-list a, .edge-hint { transition: none; }
+}
